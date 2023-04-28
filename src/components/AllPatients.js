@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import styles from "./AllPatients.module.css"
+import PatientRow from './PatientRow';
 
 function AllPatients() {
 
@@ -36,7 +37,7 @@ function AllPatients() {
       }, [])
 
   return (
-    <div className={styles.test}>
+    <div>
         <table className={styles.test}>
             <thead>
                 <tr>
@@ -45,24 +46,16 @@ function AllPatients() {
                     <th>Gender</th>
                     <th colSpan={2}>Actions</th>
                 </tr>
+              </thead>
+              <tbody>
                 {patientsArray.length > 0 && patientsArray.map((patient) => {
             return (
-              // NOTE - make this <tr> it's own component...
-                <tr key={patient.id}>
-                  <td>{patient.firstName} {patient.lastName}</td>
-                  <td>{patient.age}</td>
-                  <td>{patient.gender}</td>
-                  <td>
-                    <button>VIEW DETAILS</button>
-                  </td>
-                  <td>
-                    <button>DELETE</button>
-                  </td>
-                </tr>
+              <PatientRow patient={patient} key={patient.id} />               
             )
         })}
-            </thead>
+        </tbody>
         </table>
+        <button type='button'>CREATE PATIENT</button>
     </div>
   )
 }
