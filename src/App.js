@@ -1,7 +1,8 @@
 import './App.css';
-import AllPatients from "./components/AllPatients";
+import React, { Route, Routes } from 'react-router-dom';
+import AllPatients from './components/AllPatients';
+import CreatePatient from './components/CreatePatient';
 import PatientDetails from './components/PatientDetails';
-import { Route, Routes } from 'react-router-dom';
 
 function App() {
   return (
@@ -9,6 +10,7 @@ function App() {
       <Routes>
         <Route path="/" element={<AllPatients />} />
         <Route path="/patients/:id" element={<PatientDetails />} />
+        <Route path="/new-patient" element={<CreatePatient />} />
       </Routes>
     </div>
   );
