@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styles from './CreatePatient.module.css';
 
 function CreatePatient() {
+  const navigate = useNavigate();
   const usStatesNoId = ['AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA', 'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MD', 'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ', 'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY'];
   const usStates = usStatesNoId.map((s, index) => ({ state: s, id: index }));
   const genderOptions = [{ gender: 'Male', id: 1 }, { gender: 'Female', id: 2 }, { gender: 'Other', id: 3 }];
@@ -32,12 +34,26 @@ function CreatePatient() {
   const [heightError, setHeightError] = useState(false);
   const [weightError, setWeightError] = useState(false);
   const [insuranceError, setInsuranceError] = useState(false);
+  const postNewPatient = async (payloadObject) => {
+    const response = await fetch('http://localhost:8080/patients', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(payloadObject)
+    });
+    if (response.status === 201) {
+      console.log('THE POST WENT THROUGH');
+      navigate('/');
+    }
+  };
   useEffect(() => {
     // Regular Expressions
     const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
-    const alphabeticRegex = /^[a-zA-Z][\\'\\-\\ ]*$/g;
+    const alphabeticRegex = /^[A-Za-z'\- ]+$/;
     // const specificSsnRegex = /^(?!666|000|9\d{2})\d{3}-(?!00)\d{2}-(?!0{4})\d{4}$/;
     const ssnRegex = /^\d{3}-\d{2}-\d{4}$/;
+    // can I combine the two zip regexes???
     const zipRegex1 = /^\d{5}$/;
     const zipRegex2 = /^\d{5}-\d{4}$/;
     if (!firstName.match(alphabeticRegex)) {
@@ -70,22 +86,22 @@ function CreatePatient() {
     } else {
       setCityError(false);
     }
-    if (!postal.match(zipRegex1) || !postal.match(zipRegex2)) {
+    if (!postal.match(zipRegex1) && !postal.match(zipRegex2)) {
       setPostalError(true);
     } else {
       setPostalError(false);
     }
-    if (age < 0) {
+    if (age < 0 || age.length === 0) {
       setAgeError(true);
     } else {
       setAgeError(false);
     }
-    if (!height) {
+    if (height <= 0) {
       setHeightError(true);
     } else {
       setHeightError(false);
     }
-    if (!weight) {
+    if (weight <= 0) {
       setWeightError(true);
     } else {
       setWeightError(false);
@@ -103,9 +119,9 @@ function CreatePatient() {
       lastName,
       ssn,
       email,
-      age,
-      height,
-      weight,
+      age: Number(age),
+      height: Number(height),
+      weight: Number(weight),
       insurance,
       gender,
       street,
@@ -114,12 +130,31 @@ function CreatePatient() {
       postal
     };
     console.log(payloadObject);
+    if (!firstNameError
+        && !lastNameError
+        && !ssnError
+        && !streetError
+        && !cityError
+        && !emailError
+        && !postalError
+        && !ageError
+        && !heightError
+        && !weightError
+        && !insuranceError) {
+      console.log('VALIDATION PASSED');
+      // try catch to determine server error arounr this function call
+      postNewPatient(payloadObject);
+    } else {
+      console.log('VALIDATION NOT PASSED');
+    }
   };
   return (
     <div style={{ width: 400, marginLeft: 200 }}>
       <h3>CREATE NEW PATIENT</h3>
       <div className={styles.container}>
-        {formClicked && firstNameError && <p style={{ marginRight: 100 }}>error</p>}
+        {formClicked
+        && firstNameError
+        && <p className={styles.err} style={{ marginRight: 100 }}>first name is required</p>}
         <div className={styles.formrow}>
           <label htmlFor="firstname">
             First Name:
@@ -133,7 +168,9 @@ function CreatePatient() {
             />
           </label>
         </div>
-        {formClicked && lastNameError && <p style={{ marginRight: 100 }}>error</p>}
+        {formClicked
+        && lastNameError
+        && <p className={styles.err} style={{ marginRight: 100 }}>last name is required</p>}
         <div className={styles.formrow}>
           <label htmlFor="lastname">
             Last Name:
@@ -147,7 +184,9 @@ function CreatePatient() {
             />
           </label>
         </div>
-        {formClicked && ssnError && <p style={{ marginRight: 100 }}>error</p>}
+        {formClicked
+        && ssnError
+        && <p className={styles.err} style={{ marginRight: 100 }}>SSN must be XXX-XX-XXXX</p>}
         <div className={styles.formrow}>
           <label htmlFor="ssn">
             SSN:
@@ -161,7 +200,9 @@ function CreatePatient() {
             />
           </label>
         </div>
-        {formClicked && emailError && <p style={{ marginRight: 100 }}>error</p>}
+        {formClicked
+        && emailError
+        && <p className={styles.err} style={{ marginRight: 100 }}>must be valid email</p>}
         <div className={styles.formrow}>
           <label htmlFor="email">
             Email:
@@ -175,7 +216,9 @@ function CreatePatient() {
             />
           </label>
         </div>
-        {formClicked && streetError && <p style={{ marginRight: 100 }}>error</p>}
+        {formClicked
+        && streetError
+        && <p className={styles.err} style={{ marginRight: 100 }}>street is required</p>}
         <div className={styles.formrow}>
           <label htmlFor="street">
             Street Address:
@@ -189,7 +232,9 @@ function CreatePatient() {
             />
           </label>
         </div>
-        {formClicked && cityError && <p style={{ marginRight: 100 }}>error</p>}
+        {formClicked
+        && cityError
+        && <p className={styles.err} style={{ marginRight: 100 }}>city is required</p>}
         <div className={styles.formrow}>
           <label htmlFor="city">
             City:
@@ -218,7 +263,9 @@ function CreatePatient() {
             </select>
           </label>
         </div>
-        {formClicked && postalError && <p style={{ marginRight: 100 }}>error</p>}
+        {formClicked
+        && postalError
+        && <p className={styles.err} style={{ marginRight: 100 }}>must be a valid zip code</p>}
         <div className={styles.formrow}>
           <label htmlFor="postal">
             postal Code:
@@ -232,12 +279,15 @@ function CreatePatient() {
             />
           </label>
         </div>
-        {formClicked && ageError && <p style={{ marginRight: 100 }}>error</p>}
+        {formClicked
+        && ageError
+        && <p className={styles.err} style={{ marginRight: 100 }}>age is required</p>}
         <div className={styles.formrow}>
           <label htmlFor="age">
             Age:
             <input
               type="number"
+              min={0}
               id="age"
               name="age"
               className={styles.input}
@@ -246,12 +296,15 @@ function CreatePatient() {
             />
           </label>
         </div>
-        {formClicked && heightError && <p style={{ marginRight: 100 }}>error</p>}
+        {formClicked
+        && heightError
+        && <p className={styles.err} style={{ marginRight: 100 }}>height is required</p>}
         <div className={styles.formrow}>
           <label htmlFor="height">
             Height(inches):
             <input
               type="number"
+              min={0}
               id="height"
               name="height"
               className={styles.input}
@@ -260,12 +313,15 @@ function CreatePatient() {
             />
           </label>
         </div>
-        {formClicked && weightError && <p style={{ marginRight: 100 }}>error</p>}
+        {formClicked
+        && weightError
+        && <p className={styles.err} style={{ marginRight: 100 }}>weight is required</p>}
         <div className={styles.formrow}>
           <label htmlFor="weight">
             Weight(lbs):
             <input
               type="number"
+              min={0}
               id="weight"
               name="weight"
               className={styles.input}
@@ -274,7 +330,9 @@ function CreatePatient() {
             />
           </label>
         </div>
-        {formClicked && insuranceError && <p style={{ marginRight: 100 }}>error</p>}
+        {formClicked
+        && insuranceError
+        && <p className={styles.err} style={{ marginRight: 100 }}>insurance is required</p>}
         <div className={styles.formrow}>
           <label htmlFor="insurance">
             Insurance:
