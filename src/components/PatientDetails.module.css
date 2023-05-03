@@ -1,0 +1,11 @@
+.table {
+    margin: 0 auto;
+}
+.err {
+    color: red;
+}
+.btn {
+    margin-top: 10px;
+    margin-left: 5px;
+    margin-right: 5px;
+}

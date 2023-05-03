@@ -1,4 +1,7 @@
 
-.test {
+.table {
     margin: 0 auto;
+}
+.err {
+    color: red;
 }

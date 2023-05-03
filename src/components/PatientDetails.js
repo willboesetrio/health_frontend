@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import styles from './AllPatients.module.css';
+import styles from './PatientDetails.module.css';
 
 function PatientDetails() {
-  const [patient, setpatient] = useState([]);
+  const [patient, setPatient] = useState([]);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -25,7 +25,7 @@ function PatientDetails() {
         const thisPatient = await response.json();
         console.log(thisPatient);
         if (response.status === 200) {
-          setpatient(thisPatient);
+          setPatient(thisPatient);
           // setLoading(false);
         }
       } catch (err) {
@@ -39,7 +39,7 @@ function PatientDetails() {
 
   return (
     <div>
-      <table className={styles.test}>
+      <table className={styles.table}>
         <tbody>
           <tr>
             <td>FIRST</td>
@@ -102,8 +102,8 @@ function PatientDetails() {
           </tr>
         </tbody>
       </table>
-      <button type="button" onClick={() => navigate('/')}>BACK TO ALL PATIENTS VIEW</button>
-      <button type="button">EDIT THIS PATIENT</button>
+      <button type="button" className={styles.btn} onClick={() => navigate(`/edit-patient/${patient.id}`)}>EDIT THIS PATIENT</button>
+      <button type="button" className={styles.btn} onClick={() => navigate('/')}>BACK TO ALL PATIENTS</button>
     </div>
   );
 }
