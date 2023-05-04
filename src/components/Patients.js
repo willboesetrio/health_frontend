@@ -85,7 +85,7 @@ function Patients() {
           ))}
         </tbody>
       </table>
-      <button type="button" onClick={() => navigate('/new-patient')}>CREATE NEW PATIENT</button>
+      <button type="button" className={styles.btn} onClick={() => navigate('/new-patient')}>CREATE NEW PATIENT</button>
     </div>
   );
 }

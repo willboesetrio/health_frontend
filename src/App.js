@@ -6,6 +6,7 @@ import PatientDetails from './components/PatientDetails';
 import EditPatient from './components/EditPatient';
 import EncounterDetails from './components/EncounterDetails';
 import CreateEncounter from './components/CreateEncounter';
+import EditEncounter from './components/EditEncounter';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path="/edit-patient/:id" element={<EditPatient />} />
         <Route path="/patients/:patientId/encounters/:encounterId" element={<EncounterDetails />} />
         <Route path="/patients/:id/encounters/create" element={<CreateEncounter />} />
+        <Route path="/patients/:patientId/edit-encounter/:encounterId" element={<EditEncounter />} />
       </Routes>
     </div>
   );

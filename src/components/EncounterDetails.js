@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import styles from './PatientDetails.module.css';
 
 function EncounterDetails() {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const location = useLocation();
   const encounterId = location.pathname.split('/')[4];
   const patientId = location.pathname.split('/')[2];
@@ -104,6 +104,13 @@ function EncounterDetails() {
           </tr>
         </tbody>
       </table>
+      <button
+        type="button"
+        className={styles.btn}
+        onClick={() => navigate(`/patients/${patientId}/edit-encounter/${encounterId}`)}
+      >
+        EDIT THIS ENCOUNTER
+      </button>
     </div>
   );
 }
