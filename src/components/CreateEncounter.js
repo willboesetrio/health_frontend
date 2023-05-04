@@ -29,9 +29,6 @@ function CreateEncounter() {
   const [totalCostErr, setTotalCostErr] = useState(false);
   const [copayErr, setCopayErr] = useState(false);
   const [chiefComplaintErr, setChiefComplaintErr] = useState(false);
-  const [pulseErr, setPulseErr] = useState(false);
-  const [systolicErr, setSystolicErr] = useState(false);
-  const [diastolicErr, setDiastolicErr] = useState(false);
   const [dateErr, setDateErr] = useState(false);
   const postNewEncounter = async (payloadObject) => {
     const response = await fetch(`http://localhost:8080/patients/${patientId}/encounters`, {
@@ -47,28 +44,35 @@ function CreateEncounter() {
     }
   };
   useEffect(() => {
+    // Regular Expressions
+    const visitCodeRegex = /^[a-zA-Z][\d][a-zA-Z][ ][\d][a-zA-Z][\d]$/;
+    const billingCodeRegex = /^\d{3}.\d{3}.\d{3}-\d{2}$/;
+    const icd10Regex = /^[a-zA-Z][\d][\d]$/;
+    const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
     if (!notes) { setNotesErr(true); } else { setNotesErr(false); }
-    if (!visitCode) { setVisitCodeErr(true); } else { setVisitCodeErr(false); }
+    if (!visitCode.match(visitCodeRegex)) {
+      setVisitCodeErr(true);
+    } else { setVisitCodeErr(false); }
     if (!provider) { setProviderErr(true); } else { setProviderErr(false); }
-    if (!billingCode) { setBillingCodeErr(true); } else { setBillingCodeErr(false); }
-    if (!icd10) { setIcd10Err(true); } else { setIcd10Err(false); }
-    if (!totalCost) { setTotalCostErr(true); } else { setTotalCostErr(false); }
-    if (!copay) { setCopayErr(true); } else { setCopayErr(false); }
+    if (!billingCode.match(billingCodeRegex)) {
+      setBillingCodeErr(true);
+    } else { setBillingCodeErr(false); }
+    if (!icd10.match(icd10Regex)) { setIcd10Err(true); } else { setIcd10Err(false); }
+    if (!totalCost || Number.isNaN(totalCost)) {
+      setTotalCostErr(true);
+    } else { setTotalCostErr(false); }
+    if (!copay || Number.isNaN(copay)) {
+      setCopayErr(true);
+    } else { setCopayErr(false); }
     if (!chiefComplaint) { setChiefComplaintErr(true); } else { setChiefComplaintErr(false); }
-    if (!pulse) { setPulseErr(true); } else { setPulseErr(false); }
-    if (!systolic) { setSystolicErr(true); } else { setSystolicErr(false); }
-    if (!diastolic) { setDiastolicErr(true); } else { setDiastolicErr(false); }
-    if (!date) { setDateErr(true); } else { setDateErr(false); }
+    if (!date.match(dateRegex)) { setDateErr(true); } else { setDateErr(false); }
   }, [billingCode,
     chiefComplaint,
     copay,
     date,
-    diastolic,
     icd10,
     notes,
     provider,
-    pulse,
-    systolic,
     totalCost,
     visitCode]);
   const handleCreate = () => {
@@ -92,12 +96,9 @@ function CreateEncounter() {
         && !chiefComplaintErr
         && !copayErr
         && !dateErr
-        && !diastolicErr
         && !icd10Err
         && !notesErr
         && !providerErr
-        && !pulseErr
-        && !systolicErr
         && !totalCostErr
         && !visitCodeErr) {
       postNewEncounter(payloadObject);
@@ -127,7 +128,7 @@ function CreateEncounter() {
         </div>
         {formClicked
         && visitCodeErr
-        && <p className={styles.err} style={{ marginRight: 100 }}>visit code required</p>}
+        && <p className={styles.err} style={{ marginRight: 100 }}>visit code must be LDL DLD</p>}
         <div className={styles.formrow}>
           <label htmlFor="visitCode">
             Visit Code:
@@ -159,7 +160,7 @@ function CreateEncounter() {
         </div>
         {formClicked
         && billingCodeErr
-        && <p className={styles.err} style={{ marginRight: 100 }}>billingCodeErr</p>}
+        && <p className={styles.err} style={{ marginRight: 100 }}>must be XXX.XXX.XXX-XX</p>}
         <div className={styles.formrow}>
           <label htmlFor="billingCode">
             Billing Code:
@@ -175,7 +176,7 @@ function CreateEncounter() {
         </div>
         {formClicked
         && icd10Err
-        && <p className={styles.err} style={{ marginRight: 100 }}>icd10 required</p>}
+        && <p className={styles.err} style={{ marginRight: 100 }}>icd10 must be LDD</p>}
         <div className={styles.formrow}>
           <label htmlFor="icd10">
             ICD 10:
@@ -237,9 +238,6 @@ function CreateEncounter() {
             />
           </label>
         </div>
-        {formClicked
-        && pulseErr
-        && <p className={styles.err} style={{ marginRight: 100 }}>pulseErr</p>}
         <div className={styles.formrow}>
           <label htmlFor="pulse">
             Pulse:
@@ -254,9 +252,6 @@ function CreateEncounter() {
             />
           </label>
         </div>
-        {formClicked
-        && systolicErr
-        && <p className={styles.err} style={{ marginRight: 100 }}>systolicErr</p>}
         <div className={styles.formrow}>
           <label htmlFor="systolic">
             Systolic:
@@ -271,9 +266,6 @@ function CreateEncounter() {
             />
           </label>
         </div>
-        {formClicked
-        && diastolicErr
-        && <p className={styles.err} style={{ marginRight: 100 }}>diastolicErr</p>}
         <div className={styles.formrow}>
           <label htmlFor="diastolic">
             Diastolic:
@@ -290,7 +282,7 @@ function CreateEncounter() {
         </div>
         {formClicked
         && dateErr
-        && <p className={styles.err} style={{ marginRight: 100 }}>dateErr</p>}
+        && <p className={styles.err} style={{ marginRight: 100 }}>date must be YYYY-MM-DD</p>}
         <div className={styles.formrow}>
           <label htmlFor="date">
             Date:
