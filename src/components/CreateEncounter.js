@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import styles from './CreatePatient.module.css';
 
 function CreateEncounter() {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const patientId = location.pathname.split('/')[2];
   // form variables
   const [notes, setNotes] = useState('');
   const [visitCode, setVisitCode] = useState('');
@@ -29,6 +33,19 @@ function CreateEncounter() {
   const [systolicErr, setSystolicErr] = useState(false);
   const [diastolicErr, setDiastolicErr] = useState(false);
   const [dateErr, setDateErr] = useState(false);
+  const postNewEncounter = async (payloadObject) => {
+    const response = await fetch(`http://localhost:8080/patients/${patientId}/encounters`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(payloadObject)
+    });
+    if (response.status === 201) {
+      console.log('THE POST WENT THROUGH');
+      navigate(`/patients/${patientId}`);
+    }
+  };
   useEffect(() => {
     if (!notes) { setNotesErr(true); } else { setNotesErr(false); }
     if (!visitCode) { setVisitCodeErr(true); } else { setVisitCodeErr(false); }
@@ -56,6 +73,37 @@ function CreateEncounter() {
     visitCode]);
   const handleCreate = () => {
     setFormClicked(true);
+    const payloadObject = {
+      billingCode,
+      chiefComplaint,
+      copay: parseFloat(copay),
+      date,
+      diastolic: Number(diastolic),
+      icd10,
+      notes,
+      provider,
+      pulse: Number(pulse),
+      systolic: Number(systolic),
+      totalCost: parseFloat(totalCost),
+      visitCode
+    };
+    console.log(payloadObject);
+    if (!billingCodeErr
+        && !chiefComplaintErr
+        && !copayErr
+        && !dateErr
+        && !diastolicErr
+        && !icd10Err
+        && !notesErr
+        && !providerErr
+        && !pulseErr
+        && !systolicErr
+        && !totalCostErr
+        && !visitCodeErr) {
+      postNewEncounter(payloadObject);
+    } else {
+      console.log('VALIDATION NOT PASSED');
+    }
   };
   return (
     <div style={{ width: 400, marginLeft: 200 }}>
