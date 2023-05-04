@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import styles from './PatientDetails.module.css';
+import EncounterRow from './EncounterRow';
 
 function PatientDetails() {
   const [patient, setPatient] = useState([]);
-
+  const [encounters, setEncounters] = useState([]);
   const navigate = useNavigate();
   const location = useLocation();
-  const currentId = location.pathname.slice(-1);
+  const currentId = location.pathname.split('/')[2];
 
   useEffect(() => {
     /**
@@ -34,7 +35,21 @@ function PatientDetails() {
         // setLoading(false);
       }
     };
+    const getEncountersOnPatient = async () => {
+      const response = await fetch(`http://localhost:8080/patients/${currentId}/encounters`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      const encountersResponse = await response.json();
+      console.log(encountersResponse);
+      if (response.status === 200) {
+        setEncounters(encountersResponse);
+      }
+    };
     getPatient();
+    getEncountersOnPatient();
   }, [currentId]);
 
   return (
@@ -81,7 +96,7 @@ function PatientDetails() {
             <td>height</td>
             <td>
               {patient.height}
-              `&quot;`
+              &quot;
             </td>
           </tr>
           <tr>
@@ -104,6 +119,21 @@ function PatientDetails() {
       </table>
       <button type="button" className={styles.btn} onClick={() => navigate(`/edit-patient/${patient.id}`)}>EDIT THIS PATIENT</button>
       <button type="button" className={styles.btn} onClick={() => navigate('/')}>BACK TO ALL PATIENTS</button>
+      {encounters.length > 0 ? <h4>Encounters:</h4> : <p>no encounters for this patient</p>}
+      <button type="button" className={styles.btn} onClick={() => navigate(`/patients/${patient.id}/encounters/create`)}>CREATE NEW ENCOUNTER</button>
+      <table className={styles.table}>
+        <tbody>
+          <tr>
+            <th>Encounter ID</th>
+            <th>Visit Code</th>
+            <th>Provider</th>
+            <th>Date</th>
+            <th>Actions</th>
+          </tr>
+          {encounters.length > 0
+          && encounters.map((enc) => <EncounterRow encounter={enc} key={enc.id} />)}
+        </tbody>
+      </table>
     </div>
   );
 }

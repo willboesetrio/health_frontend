@@ -1,5 +1,5 @@
 .table {
-    margin: 0 auto;
+    margin: 10px auto 0;
 }
 .err {
     color: red;
@@ -8,4 +8,7 @@
     margin-top: 10px;
     margin-left: 5px;
     margin-right: 5px;
+}
+td {
+    padding: 10px;
 }

@@ -5,7 +5,7 @@ import styles from './CreatePatient.module.css';
 function EditPatient() {
   const navigate = useNavigate();
   const location = useLocation();
-  const currentId = location.pathname.slice(-1);
+  const currentId = location.pathname.split('/')[2];
   const usStatesNoId = ['AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA', 'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MD', 'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ', 'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY'];
   const usStates = usStatesNoId.map((s, index) => ({ state: s, id: index }));
   const genderOptions = [{ gender: 'Male', id: 1 }, { gender: 'Female', id: 2 }, { gender: 'Other', id: 3 }];

@@ -4,6 +4,8 @@ import Patients from './components/Patients';
 import CreatePatient from './components/CreatePatient';
 import PatientDetails from './components/PatientDetails';
 import EditPatient from './components/EditPatient';
+import EncounterDetails from './components/EncounterDetails';
+import CreateEncounter from './components/CreateEncounter';
 
 function App() {
   return (
@@ -13,6 +15,8 @@ function App() {
         <Route path="/patients/:id" element={<PatientDetails />} />
         <Route path="/new-patient" element={<CreatePatient />} />
         <Route path="/edit-patient/:id" element={<EditPatient />} />
+        <Route path="/patients/:patientId/encounters/:encounterId" element={<EncounterDetails />} />
+        <Route path="/patients/:id/encounters/create" element={<CreateEncounter />} />
       </Routes>
     </div>
   );
