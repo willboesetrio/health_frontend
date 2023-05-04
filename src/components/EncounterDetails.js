@@ -2,6 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styles from './PatientDetails.module.css';
 
+/**
+ * @name EncounterDetails
+ * @description shows details of an individual encounter
+ * @returns component
+ */
 function EncounterDetails() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -20,6 +25,9 @@ function EncounterDetails() {
   const [diastolic, setDiastolic] = useState('');
   const [date, setDate] = useState('');
   useEffect(() => {
+    /**
+     * @name getThisEncounter
+     */
     const getThisEncounter = async () => {
       const response = await fetch(`http://localhost:8080/patients/${patientId}/encounters/${encounterId}`, {
         method: 'GET',

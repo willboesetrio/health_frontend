@@ -1,6 +1,12 @@
 import React from 'react';
 import styles from './CreatePatient.module.css';
 
+/**
+ * @name EncounterForm
+ * @description form for creating or editing an encounter
+ * @param {*} props
+ * @returns component
+ */
 function EncounterForm({
   formClicked, notes, notesErr, setNotes, visitCode, visitCodeErr, setVisitCode,
   provider, providerErr, setProvider, billingCode, billingCodeErr, setBillingCode,

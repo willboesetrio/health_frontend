@@ -2,6 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import EncounterForm from './EncounterForm';
 
+/**
+ * @name EditEncounter
+ * @description contains error validation and fetch for editing an encounter
+ * @returns component
+ */
 function EditEncounter() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -31,6 +36,10 @@ function EditEncounter() {
   const [copayErr, setCopayErr] = useState(false);
   const [chiefComplaintErr, setChiefComplaintErr] = useState(false);
   const [dateErr, setDateErr] = useState(false);
+  /**
+   * @name updateEncounter
+   * @param {*} payloadObject
+   */
   const updateEncounter = async (payloadObject) => {
     const response = await fetch(`http://localhost:8080/patients/${patientId}/encounters/${encounterId}`, {
       method: 'PUT',
@@ -45,6 +54,10 @@ function EditEncounter() {
     }
   };
   useEffect(() => {
+    /**
+     * @name getThisEncounter
+     * @description gets existing data on encounter to be edited
+     */
     const getThisEncounter = async () => {
       const response = await fetch(`http://localhost:8080/patients/${patientId}/encounters/${encounterId}`, {
         method: 'GET',
@@ -103,6 +116,10 @@ function EditEncounter() {
     provider,
     totalCost,
     visitCode]);
+  /**
+   * @name handleSubmit
+   * @description checks validation and passes payload object
+   */
   const handleSubmit = () => {
     setFormClicked(true);
     const payloadObject = {

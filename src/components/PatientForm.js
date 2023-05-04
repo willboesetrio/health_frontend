@@ -1,6 +1,12 @@
 import React from 'react';
 import styles from './CreatePatient.module.css';
 
+/**
+ * @name PatientForm
+ * @description form for creating or editing a patient
+ * @param {*} props
+ * @returns component
+ */
 function PatientForm({
   formClicked, firstNameError, firstName, setFirstName, lastName,
   lastNameError, setLastName, ssn, ssnError, setSsn, email, emailError,

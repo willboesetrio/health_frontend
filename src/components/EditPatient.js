@@ -2,6 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import PatientForm from './PatientForm';
 
+/**
+ * @name EditPatient
+ * @description contains error validation and fetch for editing a patient
+ * @returns component
+ */
 function EditPatient() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -33,6 +38,10 @@ function EditPatient() {
   const [heightError, setHeightError] = useState(false);
   const [weightError, setWeightError] = useState(false);
   const [insuranceError, setInsuranceError] = useState(false);
+  /**
+   * @name putPatient
+   * @param {*} payloadObject
+   */
   const putPatient = async (payloadObject) => {
     const response = await fetch(`http://localhost:8080/patients/${currentId}`, {
       method: 'PUT',
@@ -147,6 +156,10 @@ function EditPatient() {
     };
     getPatient();
   }, [currentId]);
+  /**
+   * @name handleSubmit
+   * @description checks validation and passes payload object
+   */
   const handleSubmit = () => {
     setFormClicked(true);
     const payloadObject = {

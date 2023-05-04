@@ -2,6 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import PatientForm from './PatientForm';
 
+/**
+ * @name CreatePatient
+ * @description contains error validation and fetch for creating a new patient
+ * @returns component
+ */
 function CreatePatient() {
   const navigate = useNavigate();
   // Input Variables
@@ -31,6 +36,10 @@ function CreatePatient() {
   const [heightError, setHeightError] = useState(false);
   const [weightError, setWeightError] = useState(false);
   const [insuranceError, setInsuranceError] = useState(false);
+  /**
+   * @name postNewPatient
+   * @param {*} payloadObject
+   */
   const postNewPatient = async (payloadObject) => {
     const response = await fetch('http://localhost:8080/patients', {
       method: 'POST',
@@ -109,6 +118,10 @@ function CreatePatient() {
       setInsuranceError(false);
     }
   }, [firstName, lastName, ssn, email, street, city, postal, age, height, weight, insurance]);
+  /**
+   * @name handleSubmit
+   * @description checks validation and passes payload object
+   */
   const handleSubmit = () => {
     setFormClicked(true);
     const payloadObject = {

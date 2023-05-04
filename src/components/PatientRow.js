@@ -1,6 +1,12 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
+/**
+ * @name PatientRow
+ * @description displays a row in the patient table
+ * @param {patient, deletePatient} props
+ * @returns component
+ */
 function PatientRow({ patient, deletePatient }) {
   const navigate = useNavigate();
 

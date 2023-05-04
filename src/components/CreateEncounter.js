@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import EncounterForm from './EncounterForm';
-
+/**
+ * @name CreateEncounter
+ * @description contains error validation and fetch for creating a new encounter
+ * @returns component
+ */
 function CreateEncounter() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -30,6 +34,10 @@ function CreateEncounter() {
   const [copayErr, setCopayErr] = useState(false);
   const [chiefComplaintErr, setChiefComplaintErr] = useState(false);
   const [dateErr, setDateErr] = useState(false);
+  /**
+   * @name postNewEncounter
+   * @param {*} payloadObject
+   */
   const postNewEncounter = async (payloadObject) => {
     const response = await fetch(`http://localhost:8080/patients/${patientId}/encounters`, {
       method: 'POST',
@@ -75,6 +83,10 @@ function CreateEncounter() {
     provider,
     totalCost,
     visitCode]);
+  /**
+   * @name handleSubmit
+   * @description checks validation and passes payload object
+   */
   const handleSubmit = () => {
     setFormClicked(true);
     const payloadObject = {

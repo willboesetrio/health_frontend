@@ -3,6 +3,11 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import styles from './PatientDetails.module.css';
 import EncounterRow from './EncounterRow';
 
+/**
+ * @name PatientDetails
+ * @description displays patient detailed view
+ * @returns component
+ */
 function PatientDetails() {
   const [patient, setPatient] = useState([]);
   const [encounters, setEncounters] = useState([]);
@@ -35,6 +40,10 @@ function PatientDetails() {
         // setLoading(false);
       }
     };
+    /**
+     * @name getEncountersOnPatient
+     * @description gets all encounters with a patient ID that match the current patient
+     */
     const getEncountersOnPatient = async () => {
       const response = await fetch(`http://localhost:8080/patients/${currentId}/encounters`, {
         method: 'GET',

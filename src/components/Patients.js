@@ -3,6 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import styles from './AllPatients.module.css';
 import PatientRow from './PatientRow';
 
+/**
+ * @name Patients
+ * @description displays all patient with option to view, delete or create new
+ * @returns component
+ */
 function Patients() {
   const navigate = useNavigate();
 
@@ -11,9 +16,9 @@ function Patients() {
 
   useEffect(() => {
     /**
-         * @name getPatients
-         * @description fetch call to get all patients
-         */
+     * @name getPatients
+     * @description fetch call to get all patients
+     */
     const getPatients = async () => {
       try {
         const response = await fetch('http://localhost:8080/patients', {
