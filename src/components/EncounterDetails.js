@@ -36,7 +36,6 @@ function EncounterDetails() {
         }
       });
       const encountersResponse = await response.json();
-      console.log(encountersResponse);
       if (response.status === 200) {
         setNotes(encountersResponse.notes);
         setVisitCode(encountersResponse.visitCode);

@@ -29,7 +29,6 @@ function PatientDetails() {
           }
         });
         const thisPatient = await response.json();
-        console.log(thisPatient);
         if (response.status === 200) {
           setPatient(thisPatient);
           // setLoading(false);
@@ -52,7 +51,6 @@ function PatientDetails() {
         }
       });
       const encountersResponse = await response.json();
-      console.log(encountersResponse);
       if (response.status === 200) {
         setEncounters(encountersResponse);
       }

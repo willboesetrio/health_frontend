@@ -51,7 +51,6 @@ function EditPatient() {
       body: JSON.stringify(payloadObject)
     });
     if (response.status === 200) {
-      console.log('THE PUT WENT THROUGH');
       navigate('/');
     }
   };
@@ -134,7 +133,6 @@ function EditPatient() {
           }
         });
         const thisPatient = await response.json();
-        console.log(thisPatient);
         if (response.status === 200) {
           setFirstName(thisPatient.firstName);
           setLastName(thisPatient.lastName);
@@ -177,7 +175,6 @@ function EditPatient() {
       state: usState,
       postal
     };
-    console.log(payloadObject);
     if (!firstNameError
         && !lastNameError
         && !ssnError
@@ -189,11 +186,8 @@ function EditPatient() {
         && !heightError
         && !weightError
         && !insuranceError) {
-      console.log('VALIDATION PASSED');
       // try catch to determine server error arounr this function call
       putPatient(payloadObject);
-    } else {
-      console.log('VALIDATION NOT PASSED');
     }
   };
   return (

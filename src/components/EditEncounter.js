@@ -49,7 +49,6 @@ function EditEncounter() {
       body: JSON.stringify(payloadObject)
     });
     if (response.status === 200) {
-      console.log('THE POST WENT THROUGH');
       navigate(`/patients/${patientId}`);
     }
   };
@@ -66,7 +65,6 @@ function EditEncounter() {
         }
       });
       const encountersResponse = await response.json();
-      console.log(encountersResponse);
       if (response.status === 200) {
         setNotes(encountersResponse.notes);
         setVisitCode(encountersResponse.visitCode);
@@ -136,7 +134,6 @@ function EditEncounter() {
       totalCost: parseFloat(totalCost),
       visitCode
     };
-    console.log(payloadObject);
     if (!billingCodeErr
         && !chiefComplaintErr
         && !copayErr
@@ -147,8 +144,6 @@ function EditEncounter() {
         && !totalCostErr
         && !visitCodeErr) {
       updateEncounter(payloadObject);
-    } else {
-      console.log('VALIDATION NOT PASSED');
     }
   };
   return (

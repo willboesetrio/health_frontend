@@ -47,7 +47,6 @@ function CreateEncounter() {
       body: JSON.stringify(payloadObject)
     });
     if (response.status === 201) {
-      console.log('THE POST WENT THROUGH');
       navigate(`/patients/${patientId}`);
     }
   };
@@ -103,7 +102,6 @@ function CreateEncounter() {
       totalCost: parseFloat(totalCost),
       visitCode
     };
-    console.log(payloadObject);
     if (!billingCodeErr
         && !chiefComplaintErr
         && !copayErr
@@ -114,8 +112,6 @@ function CreateEncounter() {
         && !totalCostErr
         && !visitCodeErr) {
       postNewEncounter(payloadObject);
-    } else {
-      console.log('VALIDATION NOT PASSED');
     }
   };
   return (

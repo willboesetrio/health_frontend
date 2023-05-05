@@ -28,7 +28,6 @@ function Patients() {
           }
         });
         const allPatients = await response.json();
-        console.log(allPatients);
         if (response.status === 200) {
           setPatientsArray(allPatients);
           // setLoading(false);
@@ -56,8 +55,6 @@ function Patients() {
     // if successful,remove the patients from the state array and rerender the patients
     if (response.status === 204) {
       setConflictError(false);
-      console.log('successful delete');
-      console.log(response.status);
       let currentIndex;
       for (let i = 0; i < patientsArray.length; i += 1) {
         if (patientsArray[i].id === id) { currentIndex = i; }

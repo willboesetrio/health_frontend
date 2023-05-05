@@ -49,7 +49,6 @@ function CreatePatient() {
       body: JSON.stringify(payloadObject)
     });
     if (response.status === 201) {
-      console.log('THE POST WENT THROUGH');
       navigate('/');
     }
   };
@@ -139,7 +138,6 @@ function CreatePatient() {
       state: usState,
       postal
     };
-    console.log(payloadObject);
     if (!firstNameError
         && !lastNameError
         && !ssnError
@@ -151,11 +149,8 @@ function CreatePatient() {
         && !heightError
         && !weightError
         && !insuranceError) {
-      console.log('VALIDATION PASSED');
       // try catch to determine server error arounr this function call
       postNewPatient(payloadObject);
-    } else {
-      console.log('VALIDATION NOT PASSED');
     }
   };
   return (
