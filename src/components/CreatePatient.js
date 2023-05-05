@@ -56,7 +56,7 @@ function CreatePatient() {
   useEffect(() => {
     // Regular Expressions
     const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
-    const alphabeticRegex = /^[A-Za-z'\- ]+$/;
+    const alphabeticRegex = /^[A-Za-z'-]+$/;
     // const specificSsnRegex = /^(?!666|000|9\d{2})\d{3}-(?!00)\d{2}-(?!0{4})\d{4}$/;
     const ssnRegex = /^\d{3}-\d{2}-\d{4}$/;
     // can I combine the two zip regexes???
